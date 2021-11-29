@@ -321,6 +321,10 @@ public class TransitFactory {
      * @return a WriteHandlerMap
      */
     public static Map<Class, WriteHandler<?, ?>> writeHandlerMap(Map<Class, WriteHandler<?, ?>> customHandlers) {
-        return new WriteHandlerMap(customHandlers);
+        return writeHandlerMap(customHandlers, null);
+    }
+
+    public static Map<Class, WriteHandler<?, ?>> writeHandlerMap(Map<Class, WriteHandler<?, ?>> customHandlers, Function<Object,Object> transform) {
+        return new WriteHandlerMap(customHandlers, transform);
     }
 }

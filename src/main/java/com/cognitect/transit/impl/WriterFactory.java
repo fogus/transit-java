@@ -21,7 +21,7 @@ public class WriterFactory {
 
     private static WriteHandlerMap handlerMap(Map<Class, WriteHandler<?, ?>> customHandlers) {
         if (customHandlers instanceof WriteHandlerMap)
-            return new WriteHandlerMap(customHandlers);
+            return new WriteHandlerMap(customHandlers, ((WriteHandlerMap)customHandlers).transform);
 
         WriteHandlerMap writeHandlerMap;
         synchronized (handlerCache) {
