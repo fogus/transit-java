@@ -19,6 +19,7 @@ import com.cognitect.transit.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
+import java.util.function.Function;
 
 public class WriteHandlerMap implements TagProvider, Map<Class, WriteHandler<?, ?>> {
 
@@ -71,12 +72,18 @@ public class WriteHandlerMap implements TagProvider, Map<Class, WriteHandler<?, 
 
     private final Map<Class, WriteHandler<?, ?>> handlers;
     private WriteHandlerMap verboseHandlerMap;
+    protected final Function<Object, Object> transform;
 
     public WriteHandlerMap() {
         this(null);
     }
 
     public WriteHandlerMap(Map<Class, WriteHandler<?, ?>> customHandlers) {
+        this(customHandlers, null);
+    }
+
+    public WriteHandlerMap(Map<Class, WriteHandler<?, ?>> customHandlers, Function<Object, Object> xform) {
+        transform = xform;
         handlers = new HashMap<Class, WriteHandler<?, ?>>();
         if (customHandlers instanceof WriteHandlerMap) {
             handlers.putAll(customHandlers);
@@ -229,6 +236,9 @@ public class WriteHandlerMap implements TagProvider, Map<Class, WriteHandler<?, 
 
     @Override
     public String getTag(Object o) {
+        if (transform != null)
+            o = transform.apply(o);
+
         WriteHandler<Object,Object> h = getHandler(o);
         if (h == null) return null;
         return h.tag(o);
