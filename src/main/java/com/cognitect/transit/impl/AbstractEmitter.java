@@ -178,15 +178,13 @@ public abstract class AbstractEmitter implements Emitter
                     }
                 }
                 else {
-                    if(t.equals("array")) {
+                    if(t.equals("array"))
                         emitArray(h.rep(o), asMapKey, cache);
-		    }
                     else if(t.equals("map")) {
                         emitMap(h.rep(o), asMapKey, cache);
                     }
-                    else {
+                    else
                         emitEncoded(t, h, o, asMapKey, cache);
-		    }
                 }
                 flushWriter();
             }
