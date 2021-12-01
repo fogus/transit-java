@@ -22,6 +22,7 @@ import java.util.*;
 import java.util.function.Function;
 
 public class WriteHandlerMap implements TagProvider, Map<Class, WriteHandler<?, ?>> {
+
     private static Map<Class, WriteHandler<?,?>> defaultHandlers() {
 
         Map<Class, WriteHandler<?,?>> handlers = new HashMap<Class, WriteHandler<?,?>>();
