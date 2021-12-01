@@ -105,6 +105,12 @@ public class TransitFactory {
         }
     }
 
+    public static <T> Writer<T> constructWriter(Format type, OutputStream out, WriteHandler<?, ?> defaultWriteHandler, Function<Object, Map<Class, WriteHandler<?, ?>>> ctor, Function<Object,Object> transform) {
+        Map<Class, WriteHandler<?, ?>> handlers = ctor.apply(transform);
+
+        return writer(type, out, handlers, defaultWriteHandler, transform);
+    }
+
     /**
      * Creates a reader instance.
      * @param type the format to read in
@@ -322,5 +328,13 @@ public class TransitFactory {
      */
     public static Map<Class, WriteHandler<?, ?>> writeHandlerMap(Map<Class, WriteHandler<?, ?>> customHandlers) {
         return new WriteHandlerMap(customHandlers);
+    }
+
+    public static Map<Class, WriteHandler<?, ?>> writeHandlerMap(Map<Class, WriteHandler<?, ?>> customHandlers, Function<Object, Object> xform) {
+        return new WriteHandlerMap(customHandlers, xform);
+    }
+
+    public static Function<Function<Object, Object>, Map<Class, WriteHandler<?, ?>>> writeHandlerMapRecipe(Map<Class, WriteHandler<?, ?>> customHandlers) {
+        return (xform) -> new WriteHandlerMap(customHandlers, xform);
     }
 }
