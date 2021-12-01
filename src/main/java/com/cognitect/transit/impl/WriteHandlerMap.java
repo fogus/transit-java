@@ -235,9 +235,8 @@ public class WriteHandlerMap implements TagProvider, Map<Class, WriteHandler<?, 
 
     @Override
     public String getTag(Object o) {
-        if (transform != null) {
+        if (transform != null)
             o = transform.apply(o);
-        }
 
         WriteHandler<Object,Object> h = getHandler(o);
         if (h == null) return null;
